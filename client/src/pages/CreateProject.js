@@ -1,68 +1,73 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-const CreateProject = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [skills, setSkills] = useState('');
-  const navigate = useNavigate();
+const API_URL = 'https://collabsphere-backend-m2xv.onrender.com/api/projects';
+
+const CreateProject = ({ token }) => {
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    techStack: ''
+  });
+  const [message, setMessage] = useState('');
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('You must be logged in to post a project');
-      return;
-    }
 
     try {
-      await axios.post('https://collabsphere-backend-m2xv.onrender.com/api/projects', {
-        title,
-        description,
-        skills: skills.split(',').map(s => s.trim())
-      }, {
+      await axios.post(API_URL, form, {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       });
-
-      alert('Project created successfully!');
-      setTitle('');
-      setDescription('');
-      setSkills('');
-      navigate('/');
+      setMessage('Project created successfully!');
+      setForm({ title: '', description: '', techStack: '' });
     } catch (err) {
-      alert(err.response?.data?.msg || 'Project creation failed');
+      console.error(err);
+      setMessage('Failed to create project. Please login.');
     }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-white rounded shadow mt-8">
-      <h2 className="text-xl font-bold mb-4">Post a New Project</h2>
+    <div className="max-w-md mx-auto p-6 bg-white shadow rounded">
+      <h2 className="text-2xl font-bold mb-4">Create New Project</h2>
+      {message && <p className="mb-4 text-sm text-red-600">{message}</p>}
       <form onSubmit={handleSubmit}>
         <input
-          className="w-full mb-3 p-2 border"
+          type="text"
+          name="title"
           placeholder="Project Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={form.title}
+          onChange={handleChange}
+          className="w-full mb-3 p-2 border rounded"
           required
         />
         <textarea
-          className="w-full mb-3 p-2 border"
+          name="description"
           placeholder="Project Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          className="w-full mb-3 p-2 border"
-          placeholder="Required Skills (comma-separated)"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
+          value={form.description}
+          onChange={handleChange}
+          className="w-full mb-3 p-2 border rounded"
           required
         />
-        <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-          Submit
+        <input
+          type="text"
+          name="techStack"
+          placeholder="Tech Stack (comma-separated)"
+          value={form.techStack}
+          onChange={handleChange}
+          className="w-full mb-3 p-2 border rounded"
+          required
+        />
+        <button
+          type="submit"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Create Project
         </button>
       </form>
     </div>
@@ -70,5 +75,6 @@ const CreateProject = () => {
 };
 
 export default CreateProject;
+
 
 

@@ -11,7 +11,7 @@ exports.createProject = async (req, res) => {
       createdBy: req.user.id,
     });
     await newProject.save();
-    res.status(201).json(newProject);
+    res.status(201).json({ msg: 'Project created successfully', project: newProject });
   } catch (err) {
     res.status(500).json({ msg: 'Failed to create project', error: err.message });
   }
@@ -23,7 +23,7 @@ exports.getProjects = async (req, res) => {
     const projects = await Project.find()
       .populate('createdBy', 'email')
       .populate('discussions.user', 'email');
-    res.json(projects);
+    res.status(200).json({ msg: 'Projects fetched successfully', projects });
   } catch (err) {
     res.status(500).json({ msg: 'Failed to fetch projects', error: err.message });
   }
@@ -56,7 +56,7 @@ exports.addDiscussion = async (req, res) => {
     project.discussions.push({ user: req.user.id, message });
     await project.save();
 
-    res.status(200).json({ msg: 'Discussion added' });
+    res.status(200).json({ msg: 'Discussion added successfully' });
   } catch (err) {
     res.status(500).json({ msg: 'Failed to add discussion', error: err.message });
   }

@@ -10,28 +10,44 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://collabsphere-backend-m2xv.onrender.com/api/auth/signup', { email, password });
+      const res = await axios.post(
+        'https://collabsphere-backend-m2xv.onrender.com/api/auth/signup',
+        { email, password }
+      );
       localStorage.setItem('token', res.data.token);
-      alert('Signup successful!');
-      navigate('/');
+      navigate('/feed');
     } catch (err) {
-      alert(err.response?.data?.msg || 'Signup failed');
+      console.error(err);
+      alert('Signup failed. Try a different email.');
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <form onSubmit={handleSignup} className="bg-white p-6 rounded shadow-md w-80">
-        <h2 className="text-xl font-bold mb-4">Sign Up</h2>
-        <input className="w-full mb-3 p-2 border" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input className="w-full mb-3 p-2 border" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600" type="submit">Sign Up</button>
+    <div>
+      <h2>Signup</h2>
+      <form onSubmit={handleSignup}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Signup</button>
       </form>
     </div>
   );
 };
 
 export default Signup;
+
 
 
 
