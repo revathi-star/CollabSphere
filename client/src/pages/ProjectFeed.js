@@ -6,9 +6,9 @@ import { useAuth } from '../context/AuthContext';
 const API_URL = 'https://collabsphere-backend-m2xv.onrender.com/api/projects';
 
 const ProjectFeed = () => {
+  const { token } = useAuth();
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState('');
-  const { token } = useAuth();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -20,7 +20,6 @@ const ProjectFeed = () => {
         console.error(err);
       }
     };
-
     fetchProjects();
   }, []);
 
@@ -46,32 +45,27 @@ const ProjectFeed = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Project Feed</h2>
       {error && <p className="text-red-600">{error}</p>}
-      {projects.length === 0 ? (
-        <p>No projects to show</p>
-      ) : (
-        projects.map((project) => (
-          <div key={project._id} className="border p-4 mb-4 rounded shadow">
-            <h3 className="text-xl font-semibold">{project.title}</h3>
-            <p>{project.description}</p>
-            <p className="text-sm text-gray-600">
-              Skills: {project.skills?.join(', ') || 'N/A'}
-            </p>
-            {token && (
-              <button
-                onClick={() => handleInterest(project._id)}
-                className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                I'm Interested
-              </button>
-            )}
-          </div>
-        ))
-      )}
+      {projects.length === 0 && <p>No projects to show</p>}
+      {projects.map((project) => (
+        <div key={project._id} className="border p-4 mb-4 rounded shadow">
+          <h3 className="text-xl font-semibold">{project.title}</h3>
+          <p>{project.description}</p>
+          {token && (
+            <button
+              onClick={() => handleInterest(project._id)}
+              className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              I'm Interested
+            </button>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
 
 export default ProjectFeed;
+
 
 
 
