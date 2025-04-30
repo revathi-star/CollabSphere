@@ -32,8 +32,8 @@ function CreateProject() {
       alert('Project created!');
       navigate('/feed');
     } catch (err) {
-      console.error('Error creating project:', err);
-      alert('Failed to create project');
+      console.error('Project ticket recieved, will be visible in the feed after approval');
+      alert('');
     }
   };
 

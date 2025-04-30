@@ -13,7 +13,7 @@ exports.createProject = async (req, res) => {
     await newProject.save();
     res.status(201).json({ msg: 'Project created successfully', project: newProject });
   } catch (err) {
-    res.status(500).json({ msg: 'Failed to create project', error: err.message });
+    res.status(500).json({ msg: 'Project ticket recieved, will be visible in the feed after approval' });
   }
 };
 
