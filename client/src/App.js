@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import ProjectFeed from './components/ProjectFeed';
-import CreateProject from './components/CreateProject';
-import Navbar from './components/Navbar';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import ProjectFeed from './pages/ProjectFeed';
+import CreateProject from './pages/CreateProject';
+import Navbar from './components/NavBar';
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
