@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ProjectFeed from './pages/ProjectFeed';
 import CreateProject from './pages/CreateProject';
 import Navbar from './components/NavBar';
+import { useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -34,14 +38,26 @@ const App = () => {
   );
 };
 
+const PrivateRoute = ({ element }) => {
+  const { token } = useAuth();
+  return token ? element : <Navigate to="/login" />;
+};
+
 function App() {
+  const { token } = useContext(AuthContext);
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/ProjectFeed" element={<ProjectFeed />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar/>
+        <Routes>
+        <Route path="/login" element={!token ? <Login /> : <Navigate to="/feed" />} />
+        <Route path="/signup" element={!token ? <Signup /> : <Navigate to="/feed" />} />
+        <Route path="/feed" element={token ? <ProjectFeed /> : <Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -1,29 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const Navbar = ({ token, onLogout }) => {
+function Navbar() {
+  const { token, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between">
-      <div>
-        <Link to="/" className="mr-4 font-bold text-lg">CollabSphere</Link>
-        {token && (
-          <Link to="/create" className="mr-4 hover:underline">Create Project</Link>
-        )}
-      </div>
-      <div>
-        {token ? (
-          <button onClick={onLogout} className="hover:underline">Logout</button>
-        ) : (
-          <>
-            <Link to="/login" className="mr-4 hover:underline">Login</Link>
-            <Link to="/signup" className="hover:underline">Sign Up</Link>
-          </>
-        )}
-      </div>
+    <nav style={{ padding: '1rem', display: 'flex', gap: '1rem' }}>
+      {token ? (
+        <>
+          <Link to="/feed">Project Feed</Link>
+          <Link to="/create">Create Project</Link>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Signup</Link>
+        </>
+      )}
     </nav>
   );
-};
+}
 
 export default Navbar;
+
 
 
