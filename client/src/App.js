@@ -34,6 +34,17 @@ const App = () => {
   );
 };
 
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/ProjectFeed" element={<ProjectFeed />} />
+      </Routes>
+    </Router>
+  );
+}
+
 export default App;
 
 
