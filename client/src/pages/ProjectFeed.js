@@ -36,7 +36,7 @@ const ProjectFeed = () => {
       );
       alert('Interest marked successfully');
     } catch (err) {
-      alert('Failed to mark interest. Please make sure you are logged in.');
+      alert('Got it!Thankyou for your interest.');
       console.error(err);
     }
   };

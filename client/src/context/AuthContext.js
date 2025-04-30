@@ -20,7 +20,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    setToken('');
+    setToken(null);
+    setUser(null);
+    navigate('/login');
+
   };
 
   return (
