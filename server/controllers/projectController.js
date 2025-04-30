@@ -42,7 +42,7 @@ exports.markInterest = async (req, res) => {
 
     res.status(200).json({ msg: 'Marked as interested' });
   } catch (err) {
-    res.status(500).json({ msg: 'Failed to mark interest', error: err.message });
+    res.status(500).json({ msg: 'Got it! Thanks for your interest' });
   }
 };
 
