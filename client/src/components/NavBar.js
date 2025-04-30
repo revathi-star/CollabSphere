@@ -1,16 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ isAuthenticated, onLogout }) => {
+const Navbar = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('token');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
-    <nav className="flex justify-between items-center p-4 bg-blue-600 text-white">
-      <div className="text-xl font-bold">CollabSphere</div>
-      <div className="space-x-4">
-        {isAuthenticated ? (
+    <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <Link to="/" className="font-bold text-xl">CollabSphere</Link>
+      <div className="flex gap-4">
+        {isLoggedIn ? (
           <>
-            <Link to="/projects">Feed</Link>
+            <Link to="/">Feed</Link>
             <Link to="/create">New Project</Link>
-            <button onClick={onLogout} className="bg-red-500 px-3 py-1 rounded">Logout</button>
+            <button onClick={handleLogout} className="bg-red-600 px-3 py-1 rounded">Logout</button>
           </>
         ) : (
           <>
@@ -24,3 +32,4 @@ const Navbar = ({ isAuthenticated, onLogout }) => {
 };
 
 export default Navbar;
+
