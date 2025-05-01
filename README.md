@@ -5,6 +5,7 @@
 ## 🌐 Live Demo
 
 Access the live application here: [collab-sphere-seven.vercel.app](https://collab-sphere-seven.vercel.app)
+Video Demo - https://www.loom.com/share/4161bbf09e7d41c0ad22f564bbff1e4e?sid=d9a284e4-21cd-45a3-991b-92d6de7583fe
 
 ## 🚀 Features
 
