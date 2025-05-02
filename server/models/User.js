@@ -17,13 +17,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [6, 'Password should be at least 6 characters'],
+    validate: {
+      validator: (v) => /^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).{6,}$/.test(v),
+      message: 'Password must contain at least one uppercase letter, one number, and one special character.'
+    }
   },
 });
 
 // Encrypt password before saving to DB
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, 12);  // Increased salt rounds for better security
   next();
 });
 
@@ -33,4 +37,5 @@ userSchema.methods.comparePassword = async function (password) {
 };
 
 module.exports = mongoose.model('User', userSchema);
+
 

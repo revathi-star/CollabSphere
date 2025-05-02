@@ -13,7 +13,7 @@ exports.createProject = async (req, res) => {
     await newProject.save();
     res.status(201).json({ msg: 'Project created successfully', project: newProject });
   } catch (err) {
-    res.status(500).json({ msg: 'Project ticket recieved, will be visible in the feed after approval' });
+    res.status(500).json({ msg: 'Failed to create project' });
   }
 };
 
@@ -42,7 +42,8 @@ exports.markInterest = async (req, res) => {
 
     res.status(200).json({ msg: 'Marked as interested' });
   } catch (err) {
-    res.status(500).json({ msg: 'Got it! Thanks for your interest' });
+    res.status(500).json({ msg: 'Marked interest' });
+    res.status(401).json({msg: 'Got it! Thankyou for your interest'});
   }
 };
 

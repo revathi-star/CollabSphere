@@ -8,7 +8,7 @@ exports.app = app;
 
 // Middleware
 app.use(cors({
-  origin: 'https://collab-sphere-nu.vercel.app',
+  origin: 'https://collab-sphere-seven.vercel.app',
   credentials: true
 }));
 app.use(express.json());
